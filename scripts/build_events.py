@@ -8,6 +8,8 @@ OUT_PATH = "data/intermediate/events_labeled.parquet"
 
 def main():
     news = load_kaggle_analyst_ratings(NEWS_PATH)
+    print("Loaded news")
+    print("Building events")
     events = build_events(news, horizons=(1, 5))
     events_labeled = attach_returns(events)
     events_labeled.to_parquet(OUT_PATH, index=False)

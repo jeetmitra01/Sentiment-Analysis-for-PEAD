@@ -7,6 +7,7 @@ def attach_returns(events: pd.DataFrame) -> pd.DataFrame:
     tickers = sorted(set(events["ticker"])) + ["SPY"]
     start = events["entry_date"].min() - pd.Timedelta(days=7)
     end = events["exit_date"].max() + pd.Timedelta(days=7)
+    print("Fetching prices for", len(tickers), "tickers")
 
     closes = fetch_daily_close(tickers, start, end)
 
