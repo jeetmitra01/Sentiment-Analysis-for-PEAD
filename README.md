@@ -1,5 +1,5 @@
 # Sentiment-Analysis-for-PEAD
-The main question posed this project aims to answer is can sentiment extracted from timestamped financial news headlines predict abnormal stock returns after controlling for market movement, and does this signal translate into a tradable strategy?
+The main question this project aims to answer is whether sentiment extracted from timestamped financial news headlines predicts abnormal stock returns after controlling for market movement, and does this signal translate into a tradable strategy?
 
 ## Dataset
 
@@ -9,4 +9,4 @@ While the dataset itself is a bit old, it avoids a lot of the useless metadata i
 ## FinBERT backstory
 
 FinBERT was built by a team at Prosus on top of BERT. <br>
-If you're interested [this article](https://medium.com/prosus-ai-tech-blog/finbert-financial-sentiment-analysis-with-bert-b277a3607101) walks through the process and motivations behind the projext
+If you're interested, [this article](https://medium.com/prosus-ai-tech-blog/finbert-financial-sentiment-analysis-with-bert-b277a3607101) walks through the process and motivations behind the projext
