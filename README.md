@@ -1,7 +1,10 @@
 # Sentiment-Analysis-for-PEAD
-
+The main question posed this project aims to answer is can sentiment extracted from timestamped financial news headlines predict abnormal stock returns after controlling for market movement, and does this signal translate into a tradable strategy?
 
 ## Dataset
+
+I am using  the [Daily Financial News for 6000+ Stocks dataset](https://www.kaggle.com/datasets/miguelaenlle/massive-stock-news-analysis-db-for-nlpbacktests?resource=download) from Kaggle for this project.
+While the dataset itself is a bit old, it avoids a lot of the useless metadata in other datasets and only includes data that is necessary for this project.
 
 ## FinBERT backstory
 
