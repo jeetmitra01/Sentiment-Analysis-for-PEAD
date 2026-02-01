@@ -4,16 +4,22 @@ import pandas as pd
 from .prices import fetch_daily_close
 
 def attach_returns(events: pd.DataFrame) -> pd.DataFrame:
+    # Drop events with obviously invalid dates
+    events = events[
+        (events["entry_date"] >= pd.Timestamp("2015-01-01")) &
+        (events["exit_date"] <= pd.Timestamp("today"))
+    ].copy()
+
     tickers = sorted(set(events["ticker"])) + ["SPY"]
-    start = events["entry_date"].min() - pd.Timedelta(days=7)
-    end = events["exit_date"].max() + pd.Timedelta(days=7)
-    print("Fetching prices for", len(tickers), "tickers")
+
+    start = events["entry_date"].min().date()
+    end = events["exit_date"].max().date()
 
     closes = fetch_daily_close(tickers, start, end)
 
     def close_at(sym, d):
         try:
-            return closes.loc[d, sym]
+            return closes.loc[pd.Timestamp(d), sym]
         except Exception:
             return np.nan
 
@@ -23,8 +29,15 @@ def attach_returns(events: pd.DataFrame) -> pd.DataFrame:
     out["spy_entry"]   = [close_at("SPY", d) for d in out["entry_date"]]
     out["spy_exit"]    = [close_at("SPY", d) for d in out["exit_date"]]
 
-    out = out.dropna(subset=["entry_close","exit_close","spy_entry","spy_exit"]).copy()
-    out["ret"] = out["exit_close"] / out["entry_close"] - 1.0
-    out["spy_ret"] = out["spy_exit"] / out["spy_entry"] - 1.0
-    out["excess_ret"] = out["ret"] - out["spy_ret"]
-    return out
+    mask = (
+        out["entry_close"].notna()
+        & out["exit_close"].notna()
+        & out["spy_entry"].notna()
+        & out["spy_exit"].notna()
+    )
+
+    return out[mask].assign(
+        ret=lambda x: x["exit_close"] / x["entry_close"] - 1,
+        spy_ret=lambda x: x["spy_exit"] / x["spy_entry"] - 1,
+        excess_ret=lambda x: x["ret"] - x["spy_ret"],
+    )

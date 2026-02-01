@@ -8,6 +8,7 @@ OUT_PATH = "data/intermediate/events_labeled.parquet"
 
 def main():
     news = load_kaggle_analyst_ratings(NEWS_PATH)
+    news = news[news["published_et"] >= "2015-01-01"]
     print("Loaded news")
     print("Building events")
     events = build_events(news, horizons=(1, 5))
